@@ -4,15 +4,13 @@ const GlobalFilter = require("../utils/GlobalFilter");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllCategories = catchAsync(async (req, res, next) => {
-  const categories = new GlobalFilter(Category.find(), req.query);
-  categories.filter().sort().fields().paginate();
-  const filteredCategories = await categories.query;
+  const categories = await Category.find();
 
   res.status(200).json({
     status: "success",
-    length: filteredCategories.length,
+    length: categories.length,
     data: {
-      categories: filteredCategories,
+      categories: categories,
     },
   });
 });

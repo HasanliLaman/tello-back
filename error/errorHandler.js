@@ -18,6 +18,14 @@ const handleValidationError = (err) => {
   return new GlobalError(msg, 400);
 };
 
+const handleInvalidToken = () => {
+  return new GlobalError("Token is invalid.", 401);
+};
+
+const handleExpiredToken = () => {
+  return new GlobalError("Token is expired.", 401);
+};
+
 const sendDevelopmentError = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -50,6 +58,8 @@ const errorHandler = (err, req, res, next) => {
     if (err.name === "CastError") err = handleCastError(err);
     if (err.code === 11000) err = handleDuplicateFields(err);
     if (err.name === "ValidationError") err = handleValidationError(err);
+    if (err.name === "JsonWebTokenError") err = handleInvalidToken();
+    if (err.name === "TokenExpiredError") err = handleExpiredToken();
 
     sendProductionError(err, res);
   }
