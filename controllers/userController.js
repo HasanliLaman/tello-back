@@ -1,29 +1,12 @@
 const User = require("../models/user");
 const catchAsync = require("../utils/catchAsync");
 const GlobalError = require("../error/GlobalError");
+const factory = require("../utils/factory");
 const { createToken } = require("./authController");
 
-exports.getUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
+exports.getUsers = factory.getAll(User);
 
-  res.status(200).json({
-    status: "success",
-    length: users.length,
-    data: { users },
-  });
-});
-
-exports.getUserById = catchAsync(async (req, res, next) => {
-  const id = req.params.id;
-  const user = await User.findById(id);
-
-  if (!user) return next(new GlobalError("Invalid ID!", 404));
-
-  res.status(200).json({
-    status: "success",
-    data: { user },
-  });
-});
+exports.getUserById = factory.getOne(User);
 
 exports.changeMyPassword = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
@@ -66,3 +49,8 @@ exports.changeMyData = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
