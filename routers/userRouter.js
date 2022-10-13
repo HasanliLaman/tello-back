@@ -1,8 +1,11 @@
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
+const cartRouter = require("./cartRouter");
 const protectAuth = require("../middleware/protectAuth");
 const roleAccess = require("../middleware/roleAccess");
 const router = require("express").Router();
+
+router.use("/:userId/cart", cartRouter);
 
 router.get(
   "/me",

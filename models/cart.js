@@ -1,14 +1,19 @@
 const mongoose = require("mongoose");
 
-const basketSchema = mongoose.Schema(
+const cartSchema = mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: [true, "User ID is required."],
+    },
     products: [
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "product",
           required: [true, "Product ID is required."],
-          uniquie: true,
+          unique: true,
         },
         quantity: {
           type: Number,
@@ -20,6 +25,6 @@ const basketSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Basket = mongoose.model("basket", basketSchema);
+const Cart = mongoose.model("cart", cartSchema);
 
-module.exports = Basket;
+module.exports = Cart;

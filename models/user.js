@@ -3,6 +3,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const { reset } = require("nodemon");
+const Cart = require("./cart");
 
 const userSchema = mongoose.Schema(
   {
@@ -50,10 +51,21 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
+  this.wasNew = this.isNew;
   if (!this.isModified("password")) return next();
   const newPassword = await bcrypt.hash(this.password, 12);
   this.password = newPassword;
   this.confirmPassword = undefined;
+  next();
+});
+
+userSchema.post("save", async function (doc, next) {
+  if (!this.wasNew) return next();
+
+  await Cart.create({
+    products: [],
+    user: doc._id,
+  });
   next();
 });
 
