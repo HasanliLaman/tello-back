@@ -11,10 +11,12 @@ const categorySchema = mongoose.Schema(
       required: [true, "Category name is required!"],
       unique: true,
     },
-    parentID: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: null,
-    },
+    subcategories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "category",
+      },
+    ],
   },
   { timestamps: true }
 );
