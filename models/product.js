@@ -24,10 +24,13 @@ const productSchema = mongoose.Schema(
       type: [String],
       required: [true, "Assets are required."],
     },
-    categories: {
-      type: [String],
-      required: [true, "Categories array is required"],
-    },
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "category",
+        require: [true, "Category array is required."],
+      },
+    ],
     colors: {
       type: [String],
       required: [true, "Color array is required."],

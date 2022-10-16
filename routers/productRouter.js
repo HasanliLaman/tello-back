@@ -14,7 +14,7 @@ router.get("/:id", productController.getOneProduct);
 router.patch(
   "/:id",
   protectAuth,
-  roleAccess("admin"),
+  // roleAccess("admin"),
   productController.updateProduct
 );
 router.delete(

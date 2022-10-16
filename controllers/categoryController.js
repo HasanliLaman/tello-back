@@ -10,27 +10,27 @@ exports.getAllCategories = catchAsync(async (req, res, next) => {
     req.query
   );
   query.filter().sort().fields().paginate();
-  const doc = await query.query;
+  const categories = await query.query;
 
   res.status(200).json({
     status: "success",
-    length: doc.length,
+    length: categories.length,
     data: {
-      doc,
+      categories,
     },
   });
 });
 
 exports.getOneCategory = catchAsync(async (req, res, next) => {
   const id = req.params.id;
-  const doc = await Category.findById(id).populate("subcategories");
+  const category = await Category.findById(id).populate("subcategories");
 
-  if (!doc) return next(new GlobalError("Invalid ID!", 404));
+  if (!category) return next(new GlobalError("Invalid ID!", 404));
 
   res.status(200).json({
     status: "success",
     data: {
-      doc,
+      category,
     },
   });
 });

@@ -1,6 +1,0 @@
-1. add auth
-2. fix error handling
-3. make relationships
-4. build cart
-5. images
-6. advanced stuff
