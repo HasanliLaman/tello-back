@@ -15,7 +15,10 @@ exports.getAllCarts = catchAsync(async (req, res, next) => {
   let query;
   if (req.params.userId)
     query = new GlobalFilter(
-      Cart.find({ user: req.params.userId }).populate("products.product"),
+      Cart.find({ user: req.params.userId }).populate({
+        path: "products.product",
+        select: "name price image",
+      }),
       req.query
     );
   else query = new GlobalFilter(Cart.find(), req.query);
@@ -33,7 +36,10 @@ exports.getAllCarts = catchAsync(async (req, res, next) => {
 
 exports.getCart = catchAsync(async (req, res, next) => {
   const id = req.params.id;
-  const doc = await Cart.findById(id).populate("products.product");
+  const doc = await Cart.findById(id).populate({
+    path: "products.product",
+    select: "name price image",
+  });
 
   if (!doc) return next(new GlobalError("Invalid ID!", 404));
 

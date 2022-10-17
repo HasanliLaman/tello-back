@@ -12,32 +12,38 @@ const productSchema = mongoose.Schema(
       required: [true, "Product description is required."],
     },
     image: {
-      type: String,
-      unique: true,
-      required: [true, "Image is required"],
+      type: {
+        url: String,
+        publicId: String,
+      },
     },
     price: {
       type: Number,
       required: [true, "Price is required"],
     },
-    assets: {
-      type: [String],
-      required: [true, "Assets are required."],
-    },
+    assets: [
+      {
+        type: {
+          url: String,
+          publicId: String,
+        },
+        required: [true, "Assets array is required."],
+      },
+    ],
     categories: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "category",
-        require: [true, "Category array is required."],
+        required: [true, "Category array is required."],
       },
     ],
     colors: {
       type: [String],
-      required: [true, "Color array is required."],
+      default: [],
     },
     storage: {
       type: [String],
-      required: [true, "Storage array is required."],
+      default: [],
     },
   },
   { timestamps: true }

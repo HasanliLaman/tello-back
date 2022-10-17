@@ -25,6 +25,10 @@ const cartSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+// cartSchema.virtual("totalQuantity").get(function () {
+//   return this.products.reduce((prev, curr) => curr + prev, 0);
+// });
+
 const Cart = mongoose.model("cart", cartSchema);
 
 module.exports = Cart;
