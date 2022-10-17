@@ -9,7 +9,7 @@ router.get("/", productController.getAllProducts);
 router.post(
   "/",
   protectAuth,
-  // roleAccess("admin"),
+  roleAccess("admin"),
   upload.array("assets", 10),
   productController.addProduct
 );
@@ -17,14 +17,14 @@ router.get("/:id", productController.getOneProduct);
 router.patch(
   "/:id",
   protectAuth,
-  // roleAccess("admin"),
+  roleAccess("admin"),
   upload.array("assets", 10),
   productController.updateProduct
 );
 router.delete(
   "/:id",
   protectAuth,
-  // roleAccess("admin"),
+  roleAccess("admin"),
   productController.deleteProduct
 );
 

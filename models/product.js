@@ -11,12 +11,6 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, "Product description is required."],
     },
-    image: {
-      type: {
-        url: String,
-        publicId: String,
-      },
-    },
     price: {
       type: Number,
       required: [true, "Price is required"],
@@ -46,8 +40,12 @@ const productSchema = mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+productSchema.virtual("image").get(function () {
+  return this.assets[0];
+});
 
 const Product = mongoose.model("product", productSchema);
 

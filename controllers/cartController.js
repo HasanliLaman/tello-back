@@ -17,7 +17,7 @@ exports.getAllCarts = catchAsync(async (req, res, next) => {
     query = new GlobalFilter(
       Cart.find({ user: req.params.userId }).populate({
         path: "products.product",
-        select: "name price image",
+        select: "name price assets",
       }),
       req.query
     );
@@ -38,7 +38,7 @@ exports.getCart = catchAsync(async (req, res, next) => {
   const id = req.params.id;
   const doc = await Cart.findById(id).populate({
     path: "products.product",
-    select: "name price image",
+    select: "name price assets",
   });
 
   if (!doc) return next(new GlobalError("Invalid ID!", 404));

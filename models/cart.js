@@ -22,12 +22,19 @@ const cartSchema = mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-// cartSchema.virtual("totalQuantity").get(function () {
-//   return this.products.reduce((prev, curr) => curr + prev, 0);
-// });
+cartSchema.virtual("totalQuantity").get(function () {
+  return this.products.reduce((curr, prev) => curr + prev.quantity, 0);
+});
+
+cartSchema.virtual("totalPrice").get(function () {
+  return this.products.reduce(
+    (curr, prev) => curr + prev.quantity * prev.product.price,
+    0
+  );
+});
 
 const Cart = mongoose.model("cart", cartSchema);
 
