@@ -3,15 +3,20 @@ const protectAuth = require("../middleware/protectAuth");
 const roleAccess = require("../middleware/roleAccess");
 const router = require("express").Router({ mergeParams: true });
 
-router.patch("/add", protectAuth, roleAccess("user"), cartController.addToCart);
 router.patch(
-  "/delete",
+  "/add/:productId",
+  protectAuth,
+  roleAccess("user"),
+  cartController.addToCart
+);
+router.patch(
+  "/delete/:productId",
   protectAuth,
   roleAccess("user"),
   cartController.deleteCartItem
 );
 router.patch(
-  "/update",
+  "/update/:productId",
   protectAuth,
   roleAccess("user"),
   cartController.updateCartItem

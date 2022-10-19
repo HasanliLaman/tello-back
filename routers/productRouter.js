@@ -18,7 +18,7 @@ router.patch(
   "/:id",
   protectAuth,
   roleAccess("admin"),
-  upload.array("assets", 10),
+  upload.array("assets", 15),
   productController.updateProduct
 );
 router.delete(

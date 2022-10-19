@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -26,6 +27,9 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(helmet());
 app.use(mongoSanitize());
+
+// Cors
+app.use(cors());
 
 // Routers
 const categoryRouter = require("./routers/categoryRouter");

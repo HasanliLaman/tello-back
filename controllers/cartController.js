@@ -55,23 +55,29 @@ exports.addToCart = catchAsync(async (req, res, next) => {
   const cart = await Cart.findOne({ user: req.params.userId });
   if (!cart) return next(new GlobalError("User does not exists.", 400));
 
-  const product = await Product.findById(req.body.product);
+  const product = await Product.findById(req.params.productId);
   if (!product) return next(new GlobalError("Product does not exists.", 400));
 
   let products = [...cart.products];
 
-  if (products.find((el) => el.product.toString() === req.body.product)) {
+  if (products.find((el) => el.product.toString() === req.params.productId)) {
     products.find(
-      (el) => el.product.toString() === req.body.product
+      (el) => el.product.toString() === req.params.productId
     ).quantity += req.body.quantity;
   } else
-    products.push({ product: req.body.product, quantity: req.body.quantity });
+    products.push({
+      product: req.params.productId,
+      quantity: req.body.quantity,
+    });
 
   const updatedCart = await Cart.findByIdAndUpdate(
     cart.id,
     { products },
     { runValidators: true, new: true }
-  );
+  ).populate({
+    path: "products.product",
+    select: "name price assets",
+  });
 
   res.status(200).json({
     status: "success",
@@ -87,14 +93,14 @@ exports.deleteCartItem = catchAsync(async (req, res, next) => {
 
   let products = [...cart.products];
   const product = products.find(
-    (el) => el.product.toString() === req.body.product
+    (el) => el.product.toString() === req.params.productId
   );
 
   if (!product)
     return next(new GlobalError("Cart does not contain this product.", 400));
 
   products = products.filter((el) => {
-    if (el.product.toString() === req.body.product) return false;
+    if (el.product.toString() === req.params.productId) return false;
     return true;
   });
 
@@ -102,7 +108,10 @@ exports.deleteCartItem = catchAsync(async (req, res, next) => {
     cart.id,
     { products },
     { runValidators: true, new: true }
-  );
+  ).populate({
+    path: "products.product",
+    select: "name price assets",
+  });
 
   res.status(200).json({
     status: "success",
@@ -118,7 +127,7 @@ exports.updateCartItem = catchAsync(async (req, res, next) => {
 
   let products = [...cart.products];
   const product = products.find(
-    (el) => el.product.toString() === req.body.product
+    (el) => el.product.toString() === req.params.productId
   );
 
   if (!product)
@@ -130,7 +139,10 @@ exports.updateCartItem = catchAsync(async (req, res, next) => {
     cart.id,
     { products },
     { runValidators: true, new: true }
-  );
+  ).populate({
+    path: "products.product",
+    select: "name price assets",
+  });
 
   res.status(200).json({
     status: "success",
