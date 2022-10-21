@@ -67,7 +67,7 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
   const mailOptions = {
     email: user.email,
     subject: "Reset Password",
-    message: `Click to the link: https://tello.az/${resetToken}`,
+    message: `Click to the link: http://localhost:3000/join/resetpassword/${resetToken}`,
   };
 
   await sendMail(mailOptions);

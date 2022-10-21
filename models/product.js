@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { MongooseFindByReference } = require("mongoose-find-by-reference");
 
 const productSchema = mongoose.Schema(
   {
@@ -46,6 +47,8 @@ const productSchema = mongoose.Schema(
 productSchema.virtual("image").get(function () {
   return this.assets[0];
 });
+
+productSchema.plugin(MongooseFindByReference);
 
 const Product = mongoose.model("product", productSchema);
 

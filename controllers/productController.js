@@ -53,7 +53,6 @@ exports.addProduct = catchAsync(async (req, res, next) => {
     }
 
     request.assets = images;
-    request.image = images[0];
   }
 
   const product = await Product.create(request);
@@ -77,7 +76,6 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
     }
 
     request.assets = images;
-    request.image = images[0];
   }
 
   const id = req.params.id;

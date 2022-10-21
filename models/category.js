@@ -17,6 +17,8 @@ const categorySchema = mongoose.Schema(
         ref: "category",
       },
     ],
+    cover: Boolean,
+    image: String,
   },
   { timestamps: true }
 );
