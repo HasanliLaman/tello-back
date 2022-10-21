@@ -26,7 +26,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 app.use(helmet());
-app.use(mongoSanitize());
+// app.use(mongoSanitize());
 
 // Cors
 app.use(cors());

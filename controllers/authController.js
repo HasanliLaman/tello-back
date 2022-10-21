@@ -4,6 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 const sendMail = require("../utils/email");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const Email = require("../utils/email");
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.SECRET_KEY, {
@@ -64,13 +65,8 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
   const resetToken = user.createResetToken();
   await user.save({ validateBeforeSave: false });
 
-  const mailOptions = {
-    email: user.email,
-    subject: "Reset Password",
-    message: `Click to the link: http://localhost:3000/join/resetpassword/${resetToken}`,
-  };
-
-  await sendMail(mailOptions);
+  const emailHandler = new Email(user, resetToken);
+  await emailHandler.send();
 
   res.status(200).json({
     status: "success",
