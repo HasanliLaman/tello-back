@@ -9,7 +9,7 @@ const GlobalError = require("./error/GlobalError");
 
 const app = express();
 app.use(express.json());
-app.use(express.static("views/images"));
+app.use(express.static("views"));
 
 // Checking environment
 if (process.env.NODE_ENV === "development") {
