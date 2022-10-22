@@ -13,6 +13,7 @@ router.post(
   upload.array("assets", 10),
   productController.addProduct
 );
+router.get("/search", productController.searchText);
 router.get("/:id", productController.getOneProduct);
 router.patch(
   "/:id",

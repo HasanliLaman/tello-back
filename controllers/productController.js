@@ -42,6 +42,20 @@ exports.getOneProduct = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.searchText = catchAsync(async (req, res, next) => {
+  const products = await Product.find({
+    name: { $regex: req.query.name, $options: "i" },
+  });
+
+  res.status(200).json({
+    status: "success",
+    length: products.length,
+    data: {
+      products,
+    },
+  });
+});
+
 exports.addProduct = catchAsync(async (req, res, next) => {
   const images = [];
   const request = { ...req.body };
