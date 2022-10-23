@@ -27,10 +27,12 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 
 exports.getOneProduct = catchAsync(async (req, res, next) => {
   const id = req.params.id;
-  const product = await Product.findById(id).populate({
-    path: "categories",
-    select: "name slug",
-  });
+  const product = await Product.findById(id)
+    .populate({
+      path: "categories",
+      select: "name slug",
+    })
+    .populate("reviews");
 
   if (!product) return next(new GlobalError("Invalid ID!", 404));
 

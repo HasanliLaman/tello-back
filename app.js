@@ -36,11 +36,13 @@ const categoryRouter = require("./routers/categoryRouter");
 const productRouter = require("./routers/productRouter");
 const userRouter = require("./routers/userRouter");
 const cartRouter = require("./routers/cartRouter");
+const reviewRouter = require("./routers/reviewRouter");
 
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/cart", cartRouter);
+app.use("/api/v1/review", reviewRouter);
 
 // Catch nonexist routes
 app.use((req, res, next) => {

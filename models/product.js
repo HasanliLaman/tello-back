@@ -39,12 +39,26 @@ const productSchema = mongoose.Schema(
       type: [String],
       default: [],
     },
+    ratingsAverage: {
+      type: Number,
+      default: 4.5,
+    },
+    ratingsQuantity: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 productSchema.virtual("image").get(function () {
   return this.assets[0];
+});
+
+productSchema.virtual("reviews", {
+  ref: "review",
+  foreignField: "product",
+  localField: "_id",
 });
 
 productSchema.plugin(MongooseFindByReference);
