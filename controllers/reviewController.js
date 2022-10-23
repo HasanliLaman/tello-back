@@ -13,11 +13,13 @@ exports.getReviews = catchAsync(async (req, res, next) => {
 });
 
 exports.createReview = catchAsync(async (req, res, next) => {
-  const review = await Review.create({
+  let review = await Review.create({
     ...req.body,
     creator: req.user._id,
     product: req.params.productId,
   });
+
+  review = await review.populate({ path: "creator", select: "name" });
 
   res.json({
     status: "success",
