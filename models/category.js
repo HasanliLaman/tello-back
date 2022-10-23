@@ -18,7 +18,10 @@ const categorySchema = mongoose.Schema(
       },
     ],
     cover: Boolean,
-    image: String,
+    image: {
+      url: String,
+      publicId: String,
+    },
   },
   { timestamps: true }
 );

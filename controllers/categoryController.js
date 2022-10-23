@@ -41,7 +41,10 @@ exports.addCategory = catchAsync(async (req, res, next) => {
 
   if (req.file) {
     const img = await cloudinary.v2.uploader.upload(req.file.path);
-    request.image = img;
+    request.image = {
+      url: img.url,
+      publicId: img.public_id,
+    };
   }
 
   const category = await Category.create(request);
@@ -59,7 +62,10 @@ exports.updateCategory = catchAsync(async (req, res, next) => {
 
   if (req.file) {
     const img = await cloudinary.v2.uploader.upload(req.file.path);
-    request.image = img;
+    request.image = {
+      url: img.url,
+      publicId: img.public_id,
+    };
   }
 
   const id = req.params.id;
