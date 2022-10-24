@@ -114,7 +114,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 exports.deleteProduct = factory.deleteOne(Product);
 
 exports.getStats = catchAsync(async (req, res, next) => {
-  const reqs = req.body.categories.map((el) => mongoose.Types.ObjectId(el));
+  const reqs = req.params.categories.map((el) => mongoose.Types.ObjectId(el));
 
   const stats = await Product.aggregate([
     {
