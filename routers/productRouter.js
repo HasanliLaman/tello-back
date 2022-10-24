@@ -17,6 +17,7 @@ router.post(
   productController.addProduct
 );
 router.get("/search", productController.searchText);
+router.get("/stats", productController.getStats);
 router.get("/:id", productController.getOneProduct);
 router.patch(
   "/:id",

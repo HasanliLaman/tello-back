@@ -4,6 +4,7 @@ const GlobalError = require("../error/GlobalError");
 const GlobalFilter = require("../utils/GlobalFilter");
 const factory = require("../utils/factory");
 const cloudinary = require("../utils/cloudinary");
+const mongoose = require("mongoose");
 
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   const query = new GlobalFilter(
@@ -111,3 +112,31 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteProduct = factory.deleteOne(Product);
+
+exports.getStats = catchAsync(async (req, res, next) => {
+  const reqs = req.body.categories.map((el) => mongoose.Types.ObjectId(el));
+
+  const stats = await Product.aggregate([
+    {
+      $unwind: "$categories",
+    },
+    {
+      $match: {
+        categories: { $in: reqs },
+      },
+    },
+    {
+      $group: {
+        _id: { categories: "$categories" },
+        products: { $push: "$$ROOT" },
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      stats,
+    },
+  });
+});
