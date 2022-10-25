@@ -15,10 +15,12 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
     req.query
   );
   query.filter().sort().fields().paginate();
+  const allProducts = await Product.find(req.query);
   const products = await query.query;
 
   res.status(200).json({
     status: "success",
+    numProducts: allProducts.length,
     length: products.length,
     data: {
       products,
