@@ -37,6 +37,15 @@ const userSchema = mongoose.Schema(
         message: "Password and Confirm Password should match.",
       },
     },
+    address: {
+      type: {
+        type: String,
+        default: "Point",
+        enum: ["Point"],
+      },
+      coordinates: [Number],
+      address: String,
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
