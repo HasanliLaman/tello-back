@@ -14,8 +14,14 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
     }),
     req.query
   );
+
+  let filterStr = JSON.stringify(req.query);
+  filterStr = filterStr.replace(
+    /\b(gt|gte|lt|lte)\b/g,
+    (atomic) => `$${atomic}`
+  );
   query.filter().sort().fields().paginate();
-  const allProducts = await Product.find(req.query);
+  const allProducts = await Product.find(JSON.parse(filterStr));
   const products = await query.query;
 
   res.status(200).json({

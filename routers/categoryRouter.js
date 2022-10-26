@@ -17,7 +17,7 @@ router.get("/:id", categoryController.getOneCategory);
 router.patch(
   "/:id",
   protectAuth,
-  // roleAccess("admin"),
+  roleAccess("admin"),
   upload.single("image"),
   categoryController.updateCategory
 );
