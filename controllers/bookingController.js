@@ -40,10 +40,14 @@ exports.webhook = catchAsync((req, res, next) => {
   const sig = req.headers["stripe-signature"];
   let event;
 
-  event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+  event = stripe.webhooks.constructEvent(
+    req.body,
+    sig,
+    "whsec_UOh98Dm5tw4Ni5vDV3t2DU9f2LsAJ96U"
+  );
 
   switch (event.type) {
-    case "payment_intent.succeeded": {
+    case "checkout.session.async_payment_succeeded": {
       console.log(`PaymentIntent was successful!`);
       break;
     }
