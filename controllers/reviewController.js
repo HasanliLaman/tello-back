@@ -13,6 +13,13 @@ exports.getReviews = catchAsync(async (req, res, next) => {
 });
 
 exports.createReview = catchAsync(async (req, res, next) => {
+  const userReview = await Review.find({
+    creator: req.user._id,
+    product: req.params.productId,
+  });
+
+  if (userReview) return next(GlobalError("User have already commented.", 400));
+
   let review = await Review.create({
     ...req.body,
     creator: req.user._id,
